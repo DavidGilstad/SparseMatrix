@@ -17,7 +17,6 @@ public:
 	SparseRow(int r, int c, DT& v);
 	virtual ~SparseRow();
 	void display();
-
 	int getRow();
 	int getCol();
 	DT getValue();
@@ -53,14 +52,60 @@ public:
 	friend ostream operator<<(ostream& s);
 };
 
+#include <iostream>
+#include <vector>
+using namespace std;
+
 template <class DT>
 SparseRow<DT>::SparseRow() {
 	row = -1; col = -1;
-	value = null;
+	value = 0; // should this be null?
 }
 
 template <class DT>
 SparseRow<DT>::SparseRow(int r, int c, DT& v) {
 	row = r; col = c;
 	value = v;
+}
+
+template <class DT>
+SparseRow<DT>::~SparseRow() {
+	delete value;
+}
+
+template <class DT>
+void SparseRow<DT>::display() {
+	cout << row << ", " << col << ", " << value << endl;
+}
+
+template <class DT>
+int SparseRow<DT>::getRow() {
+	return row;
+}
+
+template <class DT>
+int SparseRow<DT>::getCol() {
+	return col;
+}
+
+template <class DT>
+DT SparseRow<DT>::getValue() {
+	return value;
+}
+
+template <class DT>
+SparseMatrix<DT>::SparseMatrix() {
+	noRows = -1, noCols = -1, commonValue = 0;
+	myMatrix = new vector<SparseRow<DT>>();
+}
+
+template <class DT>
+SparseMatrix<DT>::SparseMatrix(int n, int m, int cv) {
+	noRows = n, noCols = m, commonValue = cv;
+	myMatrix = new vector<SparseRow<DT>>();
+}
+
+template <class DT>
+SparseMatrix<DT>::~SparseMatrix() {
+	delete[] myMatrix;
 }
